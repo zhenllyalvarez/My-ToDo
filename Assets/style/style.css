@@ -56,6 +56,7 @@
     /* border-radius: 0 0 0 4px; */
     font-family: Arial, Helvetica, sans-serif;
     outline: none; 
+    color: rgb(133, 128, 128);
 }
 
 .addBtn {
@@ -105,13 +106,13 @@
 
 .trEl td{
     font-family: 'Courier New', Courier, monospace;
-    width: 34.5vw;
+    width: 34.8vw;
     padding: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid rgb(173, 171, 171);
-    color: rgb(140, 138, 138);
+    color: rgb(89, 87, 87);
 }
 
 .trEl td .boxP {
@@ -133,6 +134,7 @@
     background-color: #dc2323;
     color: white;
     cursor: pointer;
+    margin-right: 10px;
 }
 
 .removeBtn:hover {
@@ -153,6 +155,10 @@
     padding: 12px;
     text-align: center;
     color: rgb(140, 138, 138);
+}
+
+.renderEl p{
+    cursor: pointer;
 }
 
 footer {
