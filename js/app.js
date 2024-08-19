@@ -9,13 +9,13 @@ function renderData() {
   
     for (let i = 0; i < arrData.length; i++) {
       const data = arrData[i];
-      const { inputData, inputDate } = data;
+      const { inputData, inputDate, isDone } = data;
       let htmlTable = `
               <tr class="trEl">
-                  <td>
+                  <td class="${isDone ? 'line-through text-gray-500' : ''}">
                       <div class="boxP" id="dataEl">
-                          <input class="checkBox" type="checkbox">
-                          <p class="name">${inputData}</p>
+                          <input class="checkBox" type="checkbox" ${isDone ? "checked" : ''} onclick="doneToDo(${i})">
+                          <p class="name">${inputData},</p>
                           <p class="date">${inputDate}</p>
                       </div>
                       <div class="tdBtn">
@@ -48,11 +48,13 @@ function renderData() {
 const addToDo = () => {
   let inputData = inputEl.value;
   let inputDate = dateEl.value;
+  const isDone = false;
 
   if(inputData && inputDate) {
     arrData.push({
         inputData,
         inputDate,
+        isDone
       });
   } else {
     alert("Please fill up properly!");
@@ -62,6 +64,11 @@ const addToDo = () => {
   dateEl.value = "";
   renderData();
 };
+
+const doneToDo = (index) => {
+  arrData[index].isDone = !arrData[index].isDone;
+  renderData()
+}
 
 const removeToDo = (index) => {
     arrData.splice(index, 1);

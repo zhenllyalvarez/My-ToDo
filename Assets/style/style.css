@@ -112,7 +112,7 @@
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid rgb(173, 171, 171);
-    color: rgb(89, 87, 87);
+    /* color: rgb(89, 87, 87); */
 }
 
 .trEl td .boxP {
@@ -123,6 +123,14 @@
 
 .trEl td .boxP p{
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.line-through {
+    text-decoration: line-through;
+}
+
+.text-gray-500 {
+    color: #999ca0;
 }
 
 .removeBtn {
