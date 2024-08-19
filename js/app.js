@@ -43,7 +43,23 @@ function renderData() {
 
     localStorage.setItem('localStorageToDO', JSON.stringify(arrData));
   }
-  
+
+const searchToDo = () => {
+  let searchBtn = document.querySelector(".searchEl").value.toUpperCase();
+  let dataSearch = document.querySelectorAll(".trEl");
+
+  for(let i = 0; i < dataSearch.length; i++) {
+    const p = dataSearch[i].getElementsByTagName("p")[0];
+    const textValue = p.textContent || p.innerText;
+
+    if(textValue.toUpperCase().indexOf(searchBtn) > -1) {
+      dataSearch[i].style.display = "";
+      // console.log(i);
+    } else {
+      dataSearch[i].style.display = "none";
+    }
+  }
+}  
 
 const addToDo = () => {
   let inputData = inputEl.value;
