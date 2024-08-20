@@ -11,7 +11,7 @@ function renderData() {
       const data = arrData[i];
       const { inputData, inputDate, isDone } = data;
       let htmlTable = `
-              <tr class="trEl">
+              <tr class="trEl" data-status="${isDone ? 'done' : 'pending'}">
                   <td class="${isDone ? 'line-through text-gray-500' : ''}">
                       <div class="boxP" id="dataEl">
                           <input class="checkBox" type="checkbox" ${isDone ? "checked" : ''} onclick="doneToDo(${i})">
@@ -42,6 +42,8 @@ function renderData() {
     }
 
     localStorage.setItem('localStorageToDO', JSON.stringify(arrData));
+    
+    itemLeft();
   }
 
 const searchToDo = () => {
@@ -90,3 +92,50 @@ const removeToDo = (index) => {
     arrData.splice(index, 1);
     renderData();
 }
+
+function itemLeft(){
+  const paraInfo = document.querySelector(".paraInfo");
+  // const itemsLeft = arrData.length;
+  const itemsLeft = arrData.filter(item => !item.isDone).length;
+
+  paraInfo.textContent = `${itemsLeft} item${itemsLeft === 1 ? '' : 's'} left`;
+  console.log(paraInfo);
+}
+
+function updateFilterSelection(selectedId) {
+  // Remove the 'selected' class from all filter options
+  document.querySelectorAll(".filterOption").forEach(p => {
+      p.classList.remove("selected");
+  });
+
+  // Add the 'selected' class to the clicked filter option
+  document.getElementById(selectedId).classList.add("selected");
+}
+
+function filterData(status) {
+  const rows = document.querySelectorAll(".trEl"); // Select all rows with class "trEl"
+
+  rows.forEach(row => {
+      const rowStatus = row.getAttribute("data-status"); // Get the status from data attribute
+      if (status === 'all' || rowStatus === status) {
+          row.style.display = ''; // Show the row
+      } else {
+          row.style.display = 'none'; // Hide the row
+      }
+  });
+}
+
+const allValue = () => {
+  filterData('all'); // Call filterData with 'all'
+  updateFilterSelection('allFilter'); // Update the selected filter
+}
+
+const pendingData = () => {
+  filterData('pending'); // Call filterData with 'pending'
+  updateFilterSelection('pendingFilter'); // Update the selected filter
+}
+
+const completedData = () => {
+  filterData('done'); // Call filterData with 'done'
+  updateFilterSelection('completedFilter'); // Update the selected filter
+} 

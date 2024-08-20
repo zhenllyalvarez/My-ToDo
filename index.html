@@ -24,14 +24,14 @@
                     </div>
                 </div>
                 <div class="info">
-                    <div>
-                        <p>2 items left</p>
+                    <div class="paraInfo">
+                        <!-- <p> items left</p> -->
                     </div>
                     <div class="renderEl">
-                        <p style="color: red;">All</p>
-                        <p>Pending</p>
-                        <p>Complete</p>
-                    </div>
+                        <p id="allFilter" onclick="allValue()" class="filterOption">All</p>
+                        <p id="pendingFilter" onclick="pendingData()" class="filterOption">Pending</p>
+                        <p id="completedFilter" onclick="completedData()" class="filterOption">Completed</p>
+                    </div>                    
                 </div>
             </div>
             </div>

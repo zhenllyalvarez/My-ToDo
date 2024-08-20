@@ -169,6 +169,16 @@
     cursor: pointer;
 }
 
+.filterOption {
+    cursor: pointer;
+}
+
+.filterOption.selected {
+    color: blue; 
+    font-weight: 500;
+}
+
+
 footer {
     margin-top: 25%;
     /* position: fixed; */
