@@ -17,4 +17,15 @@ router.get('/api/todos', (req, res) => {
     });
 });
 
+router.post('/api/todos/:id/status', async (req, res) => {
+    const { id } = req.params;
+    const { isDone } = req.body;
+
+    const updateStatus = await doneToDo.findByIdUpdate(id, {completed: isDone}, { new: true});
+
+    if(!updateStatus) {
+        return res.status(404).json({ message: 'Todo not found' });
+    } res.json(updateStatus);
+});
+
 module.exports = router;

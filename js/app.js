@@ -101,6 +101,16 @@ const addToDo = () => {
   renderData();
 };
 
+async function updateStatus(index) {
+    const todoId = arrData[index].id;
+    const isDone = arrData[index]. isDone ? 1 : 0;
+    try {
+      const response = await fetch('')
+    } catch (error) {
+      console.error("Error in updating todo:", error);
+    }
+}
+
 const doneToDo = (index) => {
   arrData[index].isDone = !arrData[index].isDone;
   renderData()
