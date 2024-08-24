@@ -1,6 +1,6 @@
 const inputEl = document.querySelector(".inputElement");
 const dateEl = document.querySelector(".dateEl");
-let arrData = JSON.parse(localStorage.getItem('localStorageToDO')) || [];
+let arrData = [];
 
 renderData();
 
@@ -40,11 +40,29 @@ function renderData() {
         scrollBar.style.maxHeight = 'none';
         scrollBar.style.overflowY = 'unset';
     }
-
-    localStorage.setItem('localStorageToDO', JSON.stringify(arrData));
-    
     itemLeft();
   }
+
+async function fetchData() {
+  try {
+    const response = await fetch('api/todos')
+    if(!response.ok) throw new Error("Network response is not ok!");
+    const data = await response.json();
+    if(Array.isArray(data)) {
+        arrData = data.map(item => ({
+        inputData: item.todo,
+        inputDate: formatDate(item.date),
+        isDone: item.status
+      }));
+      renderData();
+    } else {
+      console.error("Unexpected data format:", data);
+    }
+  } catch (error) {
+    console.error("Error fetching data!:", error);
+  }
+}
+fetchData();
 
 const searchToDo = () => {
   let searchBtn = document.querySelector(".searchEl").value.toUpperCase();
@@ -123,6 +141,15 @@ function filterData(status) {
           row.style.display = 'none'; // Hide the row
       }
   });
+}
+
+function formatDate(date) {
+  const d = new Date(date);
+  const month = (d.getMonth() + 1).toString().padStart(2, '0');
+  const day = d.getDate().toString().padStart(2, '0');
+  const year = d.getFullYear();
+
+  return `${month}/${day}/${year}`;
 }
 
 const allValue = () => {
