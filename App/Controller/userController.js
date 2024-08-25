@@ -19,7 +19,14 @@ router.get('/api/todos', (req, res) => {
 });
 
 router.post('/api/todos/add', (req, res) => {
-    connection.query("INSERT INTO todo_list (todo, date) VALUES (?,?)", (err, results) => {
+    const { todo, date } = req.body;
+    const query = "INSERT INTO todo_list (todo, date) VALUES (?, ?)";
+    const values = [todo, date]; 
+    if (!todo || !date) {
+        return res.status(400).json({ error: "Todo and date are required" });
+    }
+    console.log("Received data:", { todo, date });
+    connection.query(query, values, (err, results) => {
         if(err) {
             return res.status(500).json({error: "Failed to add data"});
         } else {
@@ -27,6 +34,7 @@ router.post('/api/todos/add', (req, res) => {
         }
     })
 });
+
 
 router.post('/api/todos/:id/status', async (req, res) => {
     const { id } = req.params;

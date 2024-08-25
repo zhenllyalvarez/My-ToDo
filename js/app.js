@@ -62,7 +62,6 @@ async function fetchData() {
     console.error("Error fetching data!:", error);
   }
 }
-fetchData();
 
 async function addData() {
   try {
@@ -78,16 +77,20 @@ async function addData() {
         date: dateInput
       })
     });
-    if(response.ok) throw new Error("Network response is not ok!");
+    if(!response.ok) throw new Error("Network response is not ok!");
     const results = await response.json();
     if(results) {
       console.log("Data added successfully:", results);
     } else {
       console.log("Failed to add todo:", results);
     }
+
+    inputEl.value = "";
+    dateEl.value = "";
   } catch (error) {
     console.error("Error adding data!:", error);
   }
+  fetchData();
 }
 
 const searchToDo = () => {
@@ -202,3 +205,5 @@ const completedData = () => {
   filterData('done'); // Call filterData with 'done'
   updateFilterSelection('completedFilter'); // Update the selected filter
 } 
+
+fetchData();

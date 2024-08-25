@@ -4,6 +4,7 @@ const app = express();
 const userController = require('./App/Controller/userController');
 
 // route
+app.use(express.json());
 app.use('/', userController);
 
 // static files from asset
