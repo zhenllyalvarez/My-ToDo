@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const userController = require('./App/Controller/userController');
-const db = require("./App/Config/dbConfig");
 
 // route
 app.use('/', userController);

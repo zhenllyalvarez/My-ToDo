@@ -64,6 +64,32 @@ async function fetchData() {
 }
 fetchData();
 
+async function addData() {
+  try {
+    const inputTodos = inputEl.value;
+    const dateInput = dateEl.value
+    const response = await fetch('/api/todos/add', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ 
+        todo: inputTodos,
+        date: dateInput
+      })
+    });
+    if(response.ok) throw new Error("Network response is not ok!");
+    const results = await response.json();
+    if(results) {
+      console.log("Data added successfully:", results);
+    } else {
+      console.log("Failed to add todo:", results);
+    }
+  } catch (error) {
+    console.error("Error adding data!:", error);
+  }
+}
+
 const searchToDo = () => {
   let searchBtn = document.querySelector(".searchEl").value.toUpperCase();
   let dataSearch = document.querySelectorAll(".trEl");

@@ -3,6 +3,7 @@ const router = express.Router();
 const path = require("path");
 const connection = require('../Config/dbConfig');
 
+
 router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, "../../index.html"));
 });
@@ -15,6 +16,16 @@ router.get('/api/todos', (req, res) => {
             res.json(results);
         }
     });
+});
+
+router.post('/api/todos/add', (req, res) => {
+    connection.query("INSERT INTO todo_list (todo, date) VALUES (?,?)", (err, results) => {
+        if(err) {
+            return res.status(500).json({error: "Failed to add data"});
+        } else {
+            res.json(results);
+        }
+    })
 });
 
 router.post('/api/todos/:id/status', async (req, res) => {
