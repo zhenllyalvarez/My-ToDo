@@ -19,7 +19,7 @@ function renderData() {
                           <p class="date">${inputDate}</p>
                       </div>
                       <div class="tdBtn">
-                          <button class="removeBtn" onclick="removeToDo(${i})">X</button>
+                          <button class="removeBtn" onclick="removeTodoData(${i})">X</button>
                       </div>
                   </td>
               </tr>
@@ -93,6 +93,29 @@ async function addData() {
   fetchData();
 }
 
+async function removeTodoData(index) {
+  const removeItem = arrData.splice(index, 1);
+
+  if(removeItem || removeItem[id]) {
+    console.log("Id is not found", removeItem);
+  }
+  const response = await fetch('/api/todos/:id/remove', {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ id: removeItem.id })
+  });
+  if(!response.ok) throw new error({ error: "error removing data!"});
+  const results = await response.json();
+  if(results) {
+    console.log("Data remove successfully:", results);
+  } else {
+    console.log("Failed to remove todo:", results);
+  }
+  fetchData();
+}
+
 const searchToDo = () => {
   let searchBtn = document.querySelector(".searchEl").value.toUpperCase();
   let dataSearch = document.querySelectorAll(".trEl");
@@ -131,17 +154,20 @@ const addToDo = () => {
 };
 
 async function updateStatus(index) {
-    const todoId = arrData[index].id;
-    const isDone = arrData[index]. isDone ? 1 : 0;
+    arrData[index].isDone = !arrData[index].isDone;
     try {
-      const response = await fetch('')
+      const response = await fetch('/api/todos/:id/status');
+      if(!response.ok) throw new error("Network is not ok!");
     } catch (error) {
       console.error("Error in updating todo:", error);
     }
+    
+  renderData()
 }
 
 const doneToDo = (index) => {
   arrData[index].isDone = !arrData[index].isDone;
+
   renderData()
 }
 

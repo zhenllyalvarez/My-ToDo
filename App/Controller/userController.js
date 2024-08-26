@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const path = require("path");
 const connection = require('../Config/dbConfig');
+const { off } = require('process');
 
 
 router.get('/', (req, res) => {
@@ -35,16 +36,32 @@ router.post('/api/todos/add', (req, res) => {
     })
 });
 
+router.post('/api/todos/:id/remove', (req, res) => {
+    const id = req.params.id;
+    const query = "DELETE FROM todo_list WHERE id = ?";
+
+    connection.query(query, [id], (err, results) => {
+        if(err) {
+            return res.status(500).json({error: "Failed to remove data"});
+        } else {
+            res.json(results);
+        }
+    });
+});
+
 
 router.post('/api/todos/:id/status', async (req, res) => {
-    const { id } = req.params;
-    const { isDone } = req.body;
-
-    const updateStatus = await doneToDo.findByIdUpdate(id, {completed: isDone}, { new: true});
-
-    if(!updateStatus) {
-        return res.status(404).json({ message: 'Todo not found' });
-    } res.json(updateStatus);
+    const { id, isDone } = req.body;
+    const query = "SELECT `id` FROM todo_list WHERE id = ?";
+    const values = [id, isDone];
+    console.log(req.body);
+    connection.query(query, values, (err, results) => {
+        if(err) {
+            return res.status(500).json({error: "Failed to add data"});
+        } else {
+            res.json(results);
+        }
+    })
 });
 
 module.exports = router;
